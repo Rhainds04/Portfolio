@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 export const s = StyleSheet.create({
   container: {
@@ -21,5 +23,28 @@ export const s = StyleSheet.create({
     width: '100%',
     height: '100%',
     overflow: 'hidden',
+  },
+  mainContainer: {
+    flex: 1,
+    flexDirection: width > 768 ? 'row' : 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    padding: 10,
+    backgroundColor: 'black',
+  },
+  sideColumn: {
+    flex: 1,
+    flexDirection: width > 768 ? 'column' : 'row',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    height: '100%',
+  },
+  centerBox: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  box: {
+    flex: 1,
+    margin: 5,
   },
 });

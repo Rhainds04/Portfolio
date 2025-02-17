@@ -1,68 +1,71 @@
-import { Text, ImageBackground, View, Pressable, Animated } from 'react-native';
+import { Text, ImageBackground, View, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { s } from './HomePage.style';
-import { useFonts } from 'expo-font';
-import { WebView } from 'react-native-webview';
 import rhinoGameHomePage from '../../assets/images/RhinoGameHomePage.gif';
 import chatHomePage from '../../assets/images/ChatHomePage.gif';
 import socialsHomePage from '../../assets/images/SocialsHomePage.gif';
+import futureHomePage from '../../assets/images/FutureHomePage.gif';
+import projectsHomePage from '../../assets/images/ProjectsHomePage.gif';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export function RhinoGame() {
-  const [fontsLoaded] = useFonts({
-    Jersey10Regular: require('../../assets/fonts/Jersey10Regular.ttf'),
-  });
-  if (!fontsLoaded) return null;
+export function HomePage() {
+  const navigation = useNavigation();
+
   return (
-    <View style={s.container}>
-      <ImageBackground
-        source={rhinoGameHomePage}
-        style={s.backgroundImage}
-      ></ImageBackground>
-    </View>
-  );
-}
-
-export function Chat() {
-  const [fontsLoaded] = useFonts({
-    Jersey10Regular: require('../../assets/fonts/Jersey10Regular.ttf'),
-  });
-  if (!fontsLoaded) return null;
-  return (
-    <View style={s.container}>
-      <ImageBackground
-        source={chatHomePage}
-        style={s.backgroundImage}
-      ></ImageBackground>
-    </View>
-  );
-}
-
-export function Plans() {
-  const [fontsLoaded] = useFonts({
-    Jersey10Regular: require('../../assets/fonts/Jersey10Regular.ttf'),
-  });
-  if (!fontsLoaded) return null;
-  return <View style={s.container}></View>;
-}
-
-export function MyProjects() {
-  const [fontsLoaded] = useFonts({
-    Jersey10Regular: require('../../assets/fonts/Jersey10Regular.ttf'),
-  });
-  if (!fontsLoaded) return null;
-  return <View style={s.container}></View>;
-}
-
-export function Socials() {
-  const [fontsLoaded] = useFonts({
-    Jersey10Regular: require('../../assets/fonts/Jersey10Regular.ttf'),
-  });
-  if (!fontsLoaded) return null;
-  return (
-    <View style={s.container}>
-      <ImageBackground
-        source={socialsHomePage}
-        style={s.backgroundImage}
-      ></ImageBackground>
-    </View>
+    <SafeAreaView style={[s.mainContainer, s.pageStyle]}>
+      <View style={s.sideColumn}>
+        <View style={s.container}>
+          <Pressable
+            style={s.box}
+            onPress={() => navigation.navigate('RhinoGame')}
+          >
+            <ImageBackground
+              source={rhinoGameHomePage}
+              style={s.backgroundImage}
+            />
+          </Pressable>
+        </View>
+        <View style={s.container}>
+          <Pressable
+            style={s.box}
+            onPress={() => navigation.navigate('Future')}
+          >
+            <ImageBackground
+              source={futureHomePage}
+              style={s.backgroundImage}
+            />
+          </Pressable>
+        </View>
+      </View>
+      <View style={s.container}>
+        <Pressable
+          style={[s.box, s.centerBox]}
+          onPress={() => navigation.navigate('Projects')}
+        >
+          <ImageBackground
+            source={projectsHomePage}
+            style={s.backgroundImage}
+          />
+        </Pressable>
+      </View>
+      <View style={s.sideColumn}>
+        <View style={s.container}>
+          <Pressable
+            style={s.box}
+            onPress={() => navigation.navigate('Socials')}
+          >
+            <ImageBackground
+              source={socialsHomePage}
+              style={s.backgroundImage}
+            />
+          </Pressable>
+        </View>
+        <View style={s.container}>
+          <Pressable style={s.box} onPress={() => navigation.navigate('Chat')}>
+            <ImageBackground source={chatHomePage} style={s.backgroundImage} />
+          </Pressable>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
