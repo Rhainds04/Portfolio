@@ -1,11 +1,12 @@
 import { View, Text } from 'react-native';
-import { s } from './RhinoGameScreen.Style';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function RhinoGameScreen() {
+import { s } from './ProjectsScreen.Style';
+
+export default function Projects() {
   return (
     <SafeAreaView style={s.mainContainer}>
-      <Text style={s.text}>Bienvenue sur RhinoGame!</Text>
+      <Text style={s.text}>Bienvenue sur Projects!</Text>
     </SafeAreaView>
   );
 }

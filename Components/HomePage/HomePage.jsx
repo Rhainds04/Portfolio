@@ -1,6 +1,8 @@
 import { Text, ImageBackground, View, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
 import { s } from './HomePage.style';
+
 import rhinoGameHomePage from '../../assets/images/RhinoGameHomePage.gif';
 import chatHomePage from '../../assets/images/ChatHomePage.gif';
 import socialsHomePage from '../../assets/images/SocialsHomePage.gif';
@@ -8,7 +10,7 @@ import futureHomePage from '../../assets/images/FutureHomePage.gif';
 import projectsHomePage from '../../assets/images/ProjectsHomePage.gif';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export function HomePage() {
+export default function HomePage() {
   const navigation = useNavigation();
 
   return (
@@ -22,7 +24,7 @@ export function HomePage() {
             <ImageBackground
               source={rhinoGameHomePage}
               style={s.backgroundImage}
-            />
+            ></ImageBackground>
           </Pressable>
         </View>
         <View style={s.container}>

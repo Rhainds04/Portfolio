@@ -1,11 +1,12 @@
 import { View, Text } from 'react-native';
-import { s } from './ProjectsScreen.Style';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function ProjectsScreen() {
+import { s } from './ChatScreen.Style';
+
+export default function Chat() {
   return (
     <SafeAreaView style={s.mainContainer}>
-      <Text style={s.text}>Bienvenue sur Projects!</Text>
+      <Text style={s.text}>Bienvenue sur Chat!</Text>
     </SafeAreaView>
   );
 }
