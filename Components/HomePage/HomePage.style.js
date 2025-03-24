@@ -6,9 +6,16 @@ export const s = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000',
-    margin: 5,
     borderWidth: 5,
+  },
+  withMargin: {
+    margin: 5,
+  },
+  greenBorder: {
     borderColor: '#39FF14',
+  },
+  whiteBorder: {
+    borderColor: '#ffffff',
   },
   text: {
     color: '#39FF14',

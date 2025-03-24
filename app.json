@@ -32,10 +32,17 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "fonts": [
+      {
+        "assets": "./assets/fonts/tiny5-Regular.ttf",
+        "familly": "pixelFont"
+      }
+    ]
   }
 }
