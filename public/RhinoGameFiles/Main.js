@@ -21,12 +21,15 @@ window.rhinoGameData = {
     score: 0, //implement different types of wave and attribute points for each wave depending on the difficulty
     hasMaxPower: false,
   },
+  enemySpawner: {
+    wavesCount: 0,
+  },
   gameState: 'initializing',
 };
 
 window.updateGameData = function () {
   const gameScene = game.scene.getScene('GameScene');
-  if (gameScene && gameScene.player) {
+  if (gameScene && gameScene.player && gameScene.enemySpawner) {
     window.rhinoGameData.player.position.x = gameScene.player.x;
     window.rhinoGameData.player.position.y = gameScene.player.y;
 
@@ -42,7 +45,10 @@ window.updateGameData = function () {
     if (typeof gameScene.player.hasMaxPower !== 'undefined') {
       window.rhinoGameData.player.hasMaxPower = gameScene.player.hasMaxPower;
     }
-
+    if (typeof gameScene.enemySpawner.wavesCount !== 'undefined') {
+      window.rhinoGameData.enemySpawner.wavesCount =
+        gameScene.enemySpawner.wavesCount;
+    }
     window.rhinoGameData.gameState = gameScene.scene.isActive()
       ? 'running'
       : 'paused';

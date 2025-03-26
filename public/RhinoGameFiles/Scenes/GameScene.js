@@ -8,35 +8,33 @@ class GameScene extends Phaser.Scene {
 
   preload() {
     this.load.image('player', 'assets/imagesRhinoGame/playerTemp.png');
-    this.load.image('enemy', 'assets/imagesRhinoGame/enemyTemp.png');
+    this.load.image('enemy', 'assets/imagesRhinoGame/enemies/enemy1.png');
     this.load.image('item', 'assets/imagesRhinoGame/itemTemp.png');
   }
 
   create() {
-    // Ensure input is set up
     this.input.keyboard.createCursorKeys();
 
-    // Create physics group for items
     this.items = this.physics.add.group();
+    this.enemies = this.physics.add.group();
 
-    // Create player
     this.player = new Player(this, 100, 100);
 
-    // Set up coroutines and power spawner
     this.coroutines = new CoroutineSystem(this);
     this.powerSpawner = new PowerSpawner(this);
+    this.enemySpawner = new EnemySpawner(this);
+
     this.powerSpawner.PowerSpawningCoroutine();
+    this.enemySpawner.StartEnemyWave(this.enemySpawner.enemyWaveCoroutine1);
 
     // Set up collisions
-    if (this.enemy) {
-      this.physics.add.overlap(
-        this.player,
-        this.enemy,
-        this.playerCollideEnemy,
-        null,
-        this
-      );
-    }
+    this.physics.add.overlap(
+      this.player,
+      this.enemies,
+      this.playerCollideEnemy,
+      null,
+      this
+    );
 
     this.physics.add.overlap(
       this.player,

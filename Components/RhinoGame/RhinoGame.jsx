@@ -12,7 +12,7 @@ import HomePageMenuItemHoverImage from '../../assets/imagesRhinoGame/HomePageMen
 import ChatPageMenuItemGif from '../../assets/imagesRhinoGame/ChatPageMenuItem.gif';
 import ChatPageMenuItemHoverImage from '../../assets/imagesRhinoGame/ChatPageMenuItemHover.png';
 
-//Game images
+//Game PNG
 import playerHealth0 from '../../assets/imagesRhinoGame/playerHealth/playerHealth1.png';
 import playerHealth1 from '../../assets/imagesRhinoGame/playerHealth/playerHealth2.png';
 import playerHealth2 from '../../assets/imagesRhinoGame/playerHealth/playerHealth3.png';
@@ -23,18 +23,26 @@ import playerPower1 from '../../assets/imagesRhinoGame/playerPower/playerPower2.
 import playerPower2 from '../../assets/imagesRhinoGame/playerPower/playerPower3.png';
 import playerPower3 from '../../assets/imagesRhinoGame/playerPower/playerPower4.png';
 
+//Game Menu PNG
+import settingIcon from '../../assets/imagesRhinoGame/MenuIcons/SettingsIcon1.png';
+import settingIconHovered from '../../assets/imagesRhinoGame/MenuIcons/SettingsIcon2.png';
+import trophyIcon from '../../assets/imagesRhinoGame/MenuIcons/TrophyIcon1.png';
+import trophyIconHovered from '../../assets/imagesRhinoGame/MenuIcons/TrophyIcon2.png';
+import howToPlayIcon from '../../assets/imagesRhinoGame/MenuIcons/HowToPlay1.png';
+import howToPlayIconHovered from '../../assets/imagesRhinoGame/MenuIcons/HowToPlay2.png';
+import skinIcon from '../../assets/imagesRhinoGame/MenuIcons/skinIcon1.png';
+import skinIconHovered from '../../assets/imagesRhinoGame/MenuIcons/skinIcon2.png';
+
 export default function RhinoGame() {
-  const [fontsLoaded] = useFonts({
+  useFonts({
     pixelFont: require('../../assets/fonts/Tiny5-Regular.ttf'),
   });
 
-  if (!fontsLoaded) {
-    return null;
-  }
   const navigation = useNavigation();
 
   const isWeb = Platform.OS === 'web';
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [hoveredMenuIcon, setHoveredMenuIcon] = useState(null);
 
   const navItems = [
     {
@@ -51,6 +59,26 @@ export default function RhinoGame() {
       image: ChatPageMenuItemHoverImage,
     },
   ];
+
+  const gameMenuItems = [
+    {
+      icon: settingIcon,
+      hoveredIcon: settingIconHovered,
+    },
+    {
+      icon: trophyIcon,
+      hoveredIcon: trophyIconHovered,
+    },
+    {
+      icon: howToPlayIcon,
+      hoveredIcon: howToPlayIconHovered,
+    },
+    {
+      icon: skinIcon,
+      hoveredIcon: skinIconHovered,
+    },
+  ];
+
   const [gameData, setGameData] = useState(null);
 
   useEffect(() => {
@@ -62,31 +90,32 @@ export default function RhinoGame() {
       }
     };
     window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
   }, []);
 
   return (
     <View style={s.container}>
-      <View style={s.navigationContainer}>
-        {navItems.map((item, index) => (
-          <Pressable
-            key={item.route}
-            style={[
-              s.navigationItem,
-              hoveredIndex === index ? s.whiteBorder : s.greenBorder,
-              hoveredIndex === index && s.hoveredItem,
-            ]}
-            onPress={() => navigation.navigate(item.route)}
-            onHoverIn={isWeb ? () => setHoveredIndex(index) : undefined}
-            onHoverOut={isWeb ? () => setHoveredIndex(null) : undefined}
-          >
-            <ImageBackground
-              source={hoveredIndex === index ? item.image : item.gif}
-              style={s.backgroundImage}
-            ></ImageBackground>
-          </Pressable>
-        ))}
-      </View>
+      {isWeb ? (
+        <View style={s.navigationContainer}>
+          {navItems.map((item, index) => (
+            <Pressable
+              key={item.route}
+              style={[
+                s.navigationItem,
+                hoveredIndex === index ? s.whiteBorder : s.greenBorder,
+                hoveredIndex === index && s.hoveredItem,
+              ]}
+              onPress={() => navigation.navigate(item.route)}
+              onHoverIn={isWeb ? () => setHoveredIndex(index) : undefined}
+              onHoverOut={isWeb ? () => setHoveredIndex(null) : undefined}
+            >
+              <ImageBackground
+                source={hoveredIndex === index ? item.image : item.gif}
+                style={s.backgroundImage}
+              ></ImageBackground>
+            </Pressable>
+          ))}
+        </View>
+      ) : undefined}
       <View style={s.gameContainer}>
         <View style={s.gameBoard}>
           {isWeb ? (
@@ -107,56 +136,77 @@ export default function RhinoGame() {
             </View>
           )}
         </View>
-        <View style={s.sideMenuContainer}>
-          <View style={[s.sideMenuItem, s.gameStatus]}>
-            <View style={s.gameStatusImages}>
-              <View style={s.backgroundImage}>
-                <ImageBackground
-                  source={
-                    gameData !== null
-                      ? gameData.player.power === 3
-                        ? playerPower3
-                        : gameData.player.power === 2
-                          ? playerPower2
-                          : gameData.player.power === 1
-                            ? playerPower1
-                            : playerPower0
-                      : playerPower0
-                  }
-                />
+        {isWeb ? (
+          <View style={s.sideMenuContainer}>
+            <View style={[s.sideMenuItem, s.gameStatus]}>
+              <View style={s.gameStatusImages}>
+                <View style={s.backgroundImage}>
+                  <ImageBackground
+                    source={
+                      gameData !== null
+                        ? gameData.player.power === 3
+                          ? playerPower3
+                          : gameData.player.power === 2
+                            ? playerPower2
+                            : gameData.player.power === 1
+                              ? playerPower1
+                              : playerPower0
+                        : playerPower0
+                    }
+                  />
+                </View>
+                <View style={s.backgroundImage}>
+                  <ImageBackground
+                    source={
+                      gameData !== null
+                        ? gameData.player.health === 3
+                          ? playerHealth3
+                          : gameData.player.health === 2
+                            ? playerHealth2
+                            : gameData.player.health === 1
+                              ? playerHealth1
+                              : playerHealth0
+                        : playerHealth3
+                    }
+                  />
+                </View>
               </View>
-              <View style={s.backgroundImage}>
-                <ImageBackground
-                  source={
-                    gameData !== null
-                      ? gameData.player.health === 3
-                        ? playerHealth3
-                        : gameData.player.health === 2
-                          ? playerHealth2
-                          : gameData.player.health === 1
-                            ? playerHealth1
-                            : playerHealth0
-                      : playerHealth3
-                  }
-                />
+              <View style={s.gameScoreContainer}>
+                <Text style={s.text}>Score:</Text>
+                <Text style={s.text}>
+                  {gameData !== null ? gameData.player.score : 0}
+                </Text>
+                <Text style={s.text}>Wave:</Text>
+
+                <Text style={s.text}>
+                  {gameData !== null ? gameData.enemySpawner.wavesCount : 0}
+                </Text>
               </View>
             </View>
-            <View style={s.gameScoreContainer}>
-              <Text style={s.text}>Score:</Text>
-              <Text style={s.text}>
-                {gameData !== null ? gameData.player.score : 0}
-              </Text>
-              <Text style={s.text}>Wave:</Text>
-              <Text style={s.text}>0</Text>
+            <View style={[s.sideMenuItem, s.sideMenuItem2, s.gridContainer]}>
+              {gameMenuItems.map((item, index) => (
+                <Pressable
+                  key={'menu item' + index}
+                  style={
+                    hoveredMenuIcon === index
+                      ? [s.gridItem, s.gridItemHovered, s.whiteBorder]
+                      : [s.gridItem, s.greenBorder]
+                  }
+                  onPress={() => console.log('hello' + index)}
+                  onHoverIn={() => setHoveredMenuIcon(index)}
+                  onHoverOut={() => setHoveredMenuIcon(null)}
+                >
+                  <ImageBackground
+                    source={
+                      hoveredMenuIcon === index ? item.hoveredIcon : item.icon
+                    }
+                    style={s.backgroundImage}
+                  />
+                </Pressable>
+              ))}
             </View>
           </View>
-          <View style={[s.sideMenuItem, s.sideMenuItem2, s.gridContainer]}>
-            <View style={s.gridItem}></View>
-            <View style={s.gridItem}></View>
-            <View style={s.gridItem}></View>
-            <View style={s.gridItem}></View>
-          </View>
-        </View>
+        ) : undefined}
       </View>
     </View>
   );

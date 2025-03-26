@@ -19,8 +19,8 @@ class PowerSpawner {
     yield this.spawnInterval;
 
     if (!this.powerOnScene) {
-      const x = Math.floor(Math.random() * this.horizontalLimit);
-      const y = Math.floor(Math.random() * this.verticalLimit);
+      const x = Math.floor(Math.random() * (this.horizontalLimit - 30)) + 15;
+      const y = Math.floor(Math.random() * (this.verticalLimit - 30)) + 15;
 
       const item = this.scene.items.create(x, y, 'item');
       this.powerOnScene = true;

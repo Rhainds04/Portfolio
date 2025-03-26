@@ -108,14 +108,17 @@ export const s = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    alignContent: 'space-between',
+    justifyContent: 'space-around',
+    alignContent: 'space-around',
   },
   gridItem: {
+    width: '48%',
+    height: '48%',
+    borderWidth: 3,
+  },
+  gridItemHovered: {
     width: '49%',
     height: '49%',
-    borderWidth: 3,
-    borderColor: '#39FF14',
   },
   backgroundImage: {
     flex: 1,

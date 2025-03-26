@@ -35,16 +35,38 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     const keyboard = this.scene.input.keyboard;
 
     if (keyboard.addKey('SPACE').isDown && this.health !== 3) {
-      this.health = 3;
-      this.power = 0;
+      this.scene.coroutines.start(this.graduallyIncreaseHealth.bind(this));
+      this.scene.coroutines.start(this.graduallyRemovePower.bind(this));
       this.hasMaxPower = false;
       window.updateGameData();
     } else if (keyboard.addKey('E').isDown) {
-      this.power = 0;
+      this.scene.coroutines.start(this.graduallyRemovePower.bind(this));
       this.hasMaxPower = false;
       window.updateGameData();
       this.scene.coroutines.start(this.invulnerabilityRoutine.bind(this));
     }
+  }
+  //gradually remove power to create an animation with the images
+  *graduallyRemovePower() {
+    this.power = 2;
+    window.updateGameData();
+    yield 150;
+    this.power = 1;
+    window.updateGameData();
+    yield 150;
+    this.power = 0;
+    window.updateGameData();
+  }
+
+  *graduallyIncreaseHealth() {
+    this.health = 1;
+    window.updateGameData();
+    yield 150;
+    this.health = 2;
+    window.updateGameData();
+    yield 150;
+    this.health = 3;
+    window.updateGameData();
   }
 
   takeDamage() {
