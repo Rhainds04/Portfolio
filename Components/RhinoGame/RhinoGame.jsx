@@ -9,9 +9,6 @@ import { useFonts } from 'expo-font';
 import HomePageMenuItemGif from '../../assets/imagesRhinoGame/HomePageMenuItem.gif';
 import HomePageMenuItemHoverImage from '../../assets/imagesRhinoGame/HomePageMenuItemHover.png';
 
-import ChatPageMenuItemGif from '../../assets/imagesRhinoGame/ChatPageMenuItem.gif';
-import ChatPageMenuItemHoverImage from '../../assets/imagesRhinoGame/ChatPageMenuItemHover.png';
-
 //Game PNG
 import playerHealth0 from '../../assets/imagesRhinoGame/playerHealth/playerHealth1.png';
 import playerHealth1 from '../../assets/imagesRhinoGame/playerHealth/playerHealth2.png';
@@ -53,49 +50,66 @@ export default function RhinoGame() {
     { route: 'Future' },
     { route: 'Projects' },
     { route: 'Socials' },
-    {
-      route: 'Chat',
-      gif: ChatPageMenuItemGif,
-      image: ChatPageMenuItemHoverImage,
-    },
   ];
 
   const gameMenuItems = [
     {
+      menu: 'settings',
       icon: settingIcon,
       hoveredIcon: settingIconHovered,
     },
     {
+      menu: 'trophy',
       icon: trophyIcon,
       hoveredIcon: trophyIconHovered,
     },
     {
+      menu: 'howToPlay',
       icon: howToPlayIcon,
       hoveredIcon: howToPlayIconHovered,
     },
     {
+      menu: 'skin',
       icon: skinIcon,
       hoveredIcon: skinIconHovered,
     },
   ];
 
+  const [menuPageOpened, setMenuPageOpened] = useState(false);
+  const [settingsOpened, setSettingsOpened] = useState(false);
+  const [trophyOpened, setTrophyOpened] = useState(false);
+  const [howToPlayOpened, setHowToPlayOpened] = useState(false);
+  const [skinOpened, setSkinOpened] = useState(false);
+
   const [gameData, setGameData] = useState(null);
 
-  useEffect(() => {
-    const handleMessage = event => {
-      console.log('Message received:', event.data);
-      if (event.data && event.data.player) {
-        setGameData(event.data);
-        console.log('Game data received');
-      }
-    };
-    window.addEventListener('message', handleMessage);
-  }, []);
+  if (isWeb) {
+    useEffect(() => {
+      const handleMessage = event => {
+        console.log('Message received:', event.data);
+        if (event.data && event.data.player) {
+          setGameData(event.data);
+          console.log('Game data received');
+        }
+      };
+      window.addEventListener('message', handleMessage);
+    }, []);
+  }
 
   return (
     <View style={s.container}>
       {isWeb ? (
         <View style={s.navigationContainer}>
+          <View style={[s.navigationItem, { height: '15%', width: '110%' }]}>
+            <Text
+              style={[
+                s.title,
+                { textAlign: 'center', fontSize: 75, fontWeight: '500' },
+              ]}
+            >
+              RHINO GAME
+            </Text>
+          </View>
           {navItems.map((item, index) => (
             <Pressable
               key={item.route}
@@ -183,28 +197,167 @@ export default function RhinoGame() {
                 </Text>
               </View>
             </View>
-            <View style={[s.sideMenuItem, s.sideMenuItem2, s.gridContainer]}>
-              {gameMenuItems.map((item, index) => (
-                <Pressable
-                  key={'menu item' + index}
-                  style={
-                    hoveredMenuIcon === index
-                      ? [s.gridItem, s.gridItemHovered, s.whiteBorder]
-                      : [s.gridItem, s.greenBorder]
-                  }
-                  onPress={() => console.log('hello' + index)}
-                  onHoverIn={() => setHoveredMenuIcon(index)}
-                  onHoverOut={() => setHoveredMenuIcon(null)}
-                >
-                  <ImageBackground
-                    source={
-                      hoveredMenuIcon === index ? item.hoveredIcon : item.icon
+            {!menuPageOpened ? (
+              <View style={[s.sideMenuItem, s.sideMenuItem2, s.gridContainer]}>
+                {gameMenuItems.map((item, index) => (
+                  <Pressable
+                    key={'menu item' + index}
+                    style={
+                      hoveredMenuIcon === index
+                        ? [s.gridItem, s.gridItemHovered, s.whiteBorder]
+                        : [s.gridItem, s.greenBorder]
                     }
-                    style={s.backgroundImage}
-                  />
-                </Pressable>
-              ))}
-            </View>
+                    onPress={() => {
+                      if (item.menu === 'settings') {
+                        setSettingsOpened(true);
+                      } else if (item.menu === 'trophy') {
+                        setTrophyOpened(true);
+                      } else if (item.menu === 'howToPlay') {
+                        setHowToPlayOpened(true);
+                      } else {
+                        setSkinOpened(true);
+                      }
+
+                      setMenuPageOpened(true);
+                    }}
+                    onHoverIn={() => setHoveredMenuIcon(index)}
+                    onHoverOut={() => setHoveredMenuIcon(null)}
+                  >
+                    <ImageBackground
+                      source={
+                        hoveredMenuIcon === index ? item.hoveredIcon : item.icon
+                      }
+                      style={s.backgroundImage}
+                    />
+                  </Pressable>
+                ))}
+              </View>
+            ) : undefined}
+            {menuPageOpened && settingsOpened ? (
+              <View style={[s.sideMenuItem, s.sideMenuItem2]}>
+                <View style={[s.subMenuItem, s.greenBorder]}>
+                  <Pressable
+                    key={'settingsBackButton'}
+                    style={s.menuBackBtn}
+                    onPress={() => {
+                      setMenuPageOpened(false);
+                      setSettingsOpened(false);
+                    }}
+                    onHoverIn={() => setHoveredMenuIcon('settingsBackBtn')}
+                    onHoverOut={() => setHoveredMenuIcon(null)}
+                  >
+                    <Text
+                      style={
+                        hoveredMenuIcon === 'settingsBackBtn'
+                          ? s.whiteText
+                          : s.text
+                      }
+                    >
+                      {'<'}
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            ) : undefined}
+            {menuPageOpened && trophyOpened ? (
+              <View style={[s.sideMenuItem, s.sideMenuItem2]}>
+                <View style={[s.subMenuItem, s.greenBorder]}>
+                  <Pressable
+                    key={'trophyBackButton'}
+                    style={s.menuBackBtn}
+                    onPress={() => {
+                      setMenuPageOpened(false);
+                      setTrophyOpened(false);
+                    }}
+                    onHoverIn={() => setHoveredMenuIcon('trophyBackButton')}
+                    onHoverOut={() => setHoveredMenuIcon(null)}
+                  >
+                    <Text
+                      style={
+                        hoveredMenuIcon === 'trophyBackButton'
+                          ? s.whiteText
+                          : s.text
+                      }
+                    >
+                      {'<'}
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            ) : undefined}
+            {menuPageOpened && howToPlayOpened ? (
+              <View style={[s.sideMenuItem, s.sideMenuItem2]}>
+                <View style={[s.subMenuItem, s.greenBorder]}>
+                  <View style={s.subMenuTitle}>
+                    <Pressable
+                      key={'howToPlayBackButton'}
+                      style={s.menuBackBtn}
+                      onPress={() => {
+                        setMenuPageOpened(false);
+                        setHowToPlayOpened(false);
+                      }}
+                      onHoverIn={() =>
+                        setHoveredMenuIcon('howToPlayBackButton')
+                      }
+                      onHoverOut={() => setHoveredMenuIcon(null)}
+                    >
+                      <Text
+                        style={
+                          hoveredMenuIcon === 'howToPlayBackButton'
+                            ? s.whiteText
+                            : s.text
+                        }
+                      >
+                        {'<'}
+                      </Text>
+                    </Pressable>
+                    <Text style={s.text}>How to Play </Text>
+                  </View>
+                  <View style={s.subMenuContent}>
+                    <Text style={[s.text, s.smallerText]}>
+                      1. Avoid all moving objects that appear on the board.
+                    </Text>
+                    <Text style={[s.text, s.smallerText]}>
+                      2. Collect power-ups that spawn on the board.
+                    </Text>
+                    <Text style={[s.text, s.smallerText]}>
+                      3. When your power meter is full, press E to become
+                      invulnerable or press Space to restore your health to
+                      maximum.
+                    </Text>
+                    <Text style={[s.text, s.smallerText]}>
+                      4. Try to get the best score you can :{')'}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            ) : undefined}
+            {menuPageOpened && skinOpened ? (
+              <View style={[s.sideMenuItem, s.sideMenuItem2]}>
+                <View style={[s.subMenuItem, s.greenBorder]}>
+                  <Pressable
+                    key={'skinBackButton'}
+                    style={s.menuBackBtn}
+                    onPress={() => {
+                      setMenuPageOpened(false);
+                      setSkinOpened(false);
+                    }}
+                    onHoverIn={() => setHoveredMenuIcon('skinBackButton')}
+                    onHoverOut={() => setHoveredMenuIcon(null)}
+                  >
+                    <Text
+                      style={
+                        hoveredMenuIcon === 'skinBackButton'
+                          ? s.whiteText
+                          : s.text
+                      }
+                    >
+                      {'<'}
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            ) : undefined}
           </View>
         ) : undefined}
       </View>

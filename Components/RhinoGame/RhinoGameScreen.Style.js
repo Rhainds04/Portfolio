@@ -33,6 +33,23 @@ export const s = StyleSheet.create({
     color: '#39FF14',
     fontFamily: 'pixelFont',
   },
+  title: {
+    fontSize: 70,
+    textAlign: 'center',
+    color: '#39FF14',
+    fontFamily: 'pixelFont',
+  },
+  smallerText: {
+    fontSize: 20,
+    margin: 10,
+    textAlign: 'justify',
+  },
+  whiteText: {
+    fontSize: 30,
+    textAlign: 'left',
+    color: 'white',
+    fontFamily: 'pixelFont',
+  },
   //Navigation
   navigationContainer: {
     flexDirection: 'column',
@@ -124,5 +141,29 @@ export const s = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
+  },
+  subMenuItem: {
+    width: '100%',
+    height: '100%',
+    borderWidth: '3px',
+  },
+  menuBackBtn: {
+    position: 'relative',
+    width: '10%',
+    height: '10%',
+    margin: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  subMenuTitle: {
+    flexDirection: 'row',
+    width: '100%',
+    height: '10%',
+    alignItems: 'center',
+    margin: 10,
+  },
+  subMenuContent: {
+    marginRight: 40,
+    marginLeft: 40,
   },
 });
