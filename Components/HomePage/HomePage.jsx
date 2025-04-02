@@ -1,18 +1,27 @@
-import { Text, ImageBackground, View, Pressable, Platform } from 'react-native';
-import { useState } from 'react';
+import {
+  Text,
+  TextInput,
+  ImageBackground,
+  View,
+  Pressable,
+  Platform,
+} from 'react-native';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFonts } from 'expo-font';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 import { s } from './HomePage.style';
 
 //GIF and PNG
 import rhinoGameHomePage from '../../assets/HomePage/RhinoGameHomePage.gif';
-import chatHomePage from '../../assets/HomePage/ChatHomePage.gif';
+import loginHomePage from '../../assets/HomePage/LoginHomePage.gif';
 import socialsHomePage from '../../assets/HomePage/SocialsHomePage.gif';
 import futureHomePage from '../../assets/HomePage/FutureHomePage.gif';
 import projectsHomePage from '../../assets/HomePage/ProjectsHomePage.gif';
 import rhinoGameHomePageHover from '../../assets/HomePage/RhinoGameHomePageHover.png';
-import chatHomePageHover from '../../assets/HomePage/ChatHomePageHover.png';
+import loginHomePageHover from '../../assets/HomePage/LoginHomePageHover.png';
 import socialsHomePageHover from '../../assets/HomePage/SocialsHomePageHover.png';
 import futureHomePageHover from '../../assets/HomePage/FutureHomePageHover.png';
 import projectsHomePageHover from '../../assets/HomePage/ProjectsHomePageHover.png';
@@ -20,8 +29,211 @@ import projectsHomePageHover from '../../assets/HomePage/ProjectsHomePageHover.p
 export default function HomePage() {
   const navigation = useNavigation();
 
+  useFonts({
+    pixelFont: require('../../assets/fonts/Tiny5-Regular.ttf'),
+  });
+
   const isWeb = Platform.OS === 'web';
   const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const [isFormOpened, setIsFormOpened] = useState(false);
+  const [isLoginForm, setIsLoginForm] = useState(false);
+  const [currentFormBtn, setCurrentFormBtn] = useState(null);
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+  const handleChanges = (field, value) => {
+    setFormData({
+      ...formData,
+      [field]: value,
+    });
+  };
+
+  const handleSubmit = () => {
+    console.log('form submitted:', formData);
+  };
+
+  const MyForm = React.memo(() => {
+    const [imageUri, setImageUri] = useState(null);
+
+    const selectImage = () => {
+      const options = {
+        mediaType: 'photo',
+        includeBase64: false,
+        maxHeight: 2000,
+        maxWidth: 2000,
+      };
+
+      launchImageLibrary(options, response => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('Image picker error: ', response.error);
+        } else {
+          let uri = response.assets[0].uri;
+          setImageUri(uri);
+          // Update form data with image
+          handleChanges('profileImage', uri);
+        }
+      });
+    };
+
+    return (
+      <View style={s.formContainer}>
+        <View style={s.formSelectionBtnBox}>
+          <Pressable
+            onPress={() => {
+              setIsFormOpened(false);
+              setCurrentFormBtn(null);
+            }}
+            onHoverIn={() => setCurrentFormBtn('backBtn')}
+            onHoverOut={() => setCurrentFormBtn(null)}
+          >
+            <Text
+              style={[
+                s.text,
+                s.goBackBtn,
+                currentFormBtn === 'backBtn' ? { color: 'white' } : null,
+              ]}
+            >
+              {'<'}
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[
+              s.formSelectionBtn,
+              isLoginForm ? { backgroundColor: '#39FF14' } : null,
+              currentFormBtn === 'Login' ? { borderColor: 'white' } : null,
+            ]}
+            onPress={() => setIsLoginForm(true)}
+            onHoverIn={() => setCurrentFormBtn('Login')}
+            onHoverOut={() => setCurrentFormBtn(null)}
+          >
+            <Text
+              style={[
+                s.text,
+                isLoginForm ? { color: 'white' } : null,
+                currentFormBtn === 'Login' ? { color: 'white' } : null,
+              ]}
+            >
+              Login
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[
+              s.formSelectionBtn,
+              isLoginForm ? null : { backgroundColor: '#39FF14' },
+              currentFormBtn === 'Signup' ? { borderColor: 'white' } : null,
+            ]}
+            onPress={() => setIsLoginForm(false)}
+            onHoverIn={() => setCurrentFormBtn('Signup')}
+            onHoverOut={() => setCurrentFormBtn(null)}
+          >
+            <Text
+              style={[
+                s.text,
+                isLoginForm ? null : { color: 'white' },
+                currentFormBtn === 'Signup' ? { color: 'white' } : null,
+              ]}
+            >
+              Signup
+            </Text>
+          </Pressable>
+        </View>
+        <View style={{ flexDirection: 'row', flex: 1 }}>
+          <View style={s.fieldContainer}>
+            {isLoginForm ? undefined : (
+              <View>
+                <Text style={s.text}>Name:</Text>
+                <TextInput
+                  style={s.textField}
+                  value={formData.name}
+                  onChangeText={text => handleChanges('name', text)}
+                  placeholder="Enter your name"
+                />
+              </View>
+            )}
+            <View>
+              <Text style={s.text}>Email:</Text>
+              <TextInput
+                style={s.textField}
+                value={formData.email}
+                onChangeText={text => handleChanges('email', text)}
+                placeholder="Enter your email"
+                keyboardType="email-address"
+              />
+            </View>
+            <View>
+              <Text style={s.text}>Password:</Text>
+              <TextInput
+                style={s.textField}
+                value={formData.password}
+                onChangeText={text => handleChanges('password', text)}
+                placeholder="Enter your password"
+              />
+            </View>
+          </View>
+          {isLoginForm ? null : (
+            <View style={s.imageUploadContainer}>
+              <Text style={s.text}>Profile Image:</Text>
+              <Pressable
+                style={[
+                  s.imageSelectBtn,
+                  currentFormBtn === 'ImageSelect'
+                    ? { borderColor: 'white' }
+                    : null,
+                ]}
+                onPress={selectImage}
+                onHoverIn={() => setCurrentFormBtn('ImageSelect')}
+                onHoverOut={() => setCurrentFormBtn(null)}
+              >
+                <Text
+                  style={[
+                    s.text,
+                    currentFormBtn === 'ImageSelect'
+                      ? { color: 'white' }
+                      : null,
+                  ]}
+                >
+                  {imageUri ? 'Change Image' : 'Select Image'}
+                </Text>
+              </Pressable>
+
+              {imageUri ? (
+                <View style={s.imagePreviewContainer}>
+                  <Image source={{ uri: imageUri }} style={s.imagePreview} />
+                </View>
+              ) : null}
+            </View>
+          )}
+        </View>
+        <View style={s.submitBtnContainer}>
+          <Pressable
+            style={[
+              s.submitBtn,
+              currentFormBtn === 'Submit' ? { borderColor: 'white' } : null,
+            ]}
+            onPress={handleSubmit}
+            onHoverIn={() => setCurrentFormBtn('Submit')}
+            onHoverOut={() => setCurrentFormBtn(null)}
+          >
+            <Text
+              style={[
+                s.text,
+                currentFormBtn === 'Submit' ? { color: 'white' } : null,
+              ]}
+            >
+              Submit
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+    );
+  });
 
   return (
     <SafeAreaView style={[s.mainContainer, s.pageStyle]}>
@@ -121,23 +333,30 @@ export default function HomePage() {
         <View
           style={[
             s.container,
-            hoveredIndex === 'Chat' ? s.whiteBorder : s.greenBorder,
-            hoveredIndex === 'Chat' ? undefined : s.withMargin,
+            hoveredIndex === 'Login' ? s.whiteBorder : s.greenBorder,
+            hoveredIndex === 'Login' ? undefined : s.withMargin,
           ]}
         >
-          <Pressable
-            style={s.box}
-            onPress={() => navigation.navigate('Chat')}
-            onHoverIn={isWeb ? () => setHoveredIndex('Chat') : undefined}
-            onHoverOut={isWeb ? () => setHoveredIndex(null) : undefined}
-          >
-            <ImageBackground
-              source={
-                hoveredIndex === 'Chat' ? chatHomePageHover : chatHomePage
-              }
-              style={s.backgroundImage}
-            />
-          </Pressable>
+          {isFormOpened ? (
+            <MyForm style={s.box} />
+          ) : (
+            <Pressable
+              style={s.box}
+              onPress={() => {
+                setIsFormOpened(true);
+                setHoveredIndex(null);
+              }}
+              onHoverIn={isWeb ? () => setHoveredIndex('Login') : undefined}
+              onHoverOut={isWeb ? () => setHoveredIndex(null) : undefined}
+            >
+              <ImageBackground
+                source={
+                  hoveredIndex === 'Login' ? loginHomePageHover : loginHomePage
+                }
+                style={s.backgroundImage}
+              />
+            </Pressable>
+          )}
         </View>
       </View>
     </SafeAreaView>

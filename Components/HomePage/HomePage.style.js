@@ -20,6 +20,8 @@ export const s = StyleSheet.create({
   text: {
     color: '#39FF14',
     padding: 10,
+    fontSize: 20,
+    fontFamily: 'pixelFont',
   },
   title: {
     fontSize: 50,
@@ -53,5 +55,60 @@ export const s = StyleSheet.create({
   box: {
     flex: 1,
     margin: 5,
+  },
+  //FORM STYLES
+  formContainer: {
+    flex: 1,
+  },
+  formSelectionBtnBox: {
+    flexDirection: 'row',
+  },
+  formSelectionBtn: {
+    borderWidth: 2,
+    borderColor: '#39FF14',
+    width: '20%',
+    alignItems: 'center',
+    margin: 5,
+  },
+  fieldContainer: {
+    flex: 1,
+    paddingLeft: 15,
+  },
+  submitBtnContainer: {
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+  submitBtn: {
+    borderWidth: 2,
+    borderColor: '#39FF14',
+    width: '40%',
+    alignItems: 'center',
+    margin: 5,
+  },
+  goBackBtn: {
+    fontSize: 25,
+    margin: 5,
+  },
+  textField: {
+    borderWidth: 2,
+    borderColor: '#39FF14',
+    color: '#39FF14',
+    fontSize: 20,
+    width: 220,
+    padding: 2,
+    margin: 2,
+    fontFamily: 'pixelFont',
+  },
+  imageUploadContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 5,
+    flex: 1,
+  },
+  imageSelectBtn: {
+    borderWidth: 2,
+    borderColor: '#39FF14',
+    height: 160,
+    width: 150,
   },
 });
