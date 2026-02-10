@@ -2,6 +2,7 @@ import {
   Text,
   TextInput,
   ImageBackground,
+  Image,
   View,
   Pressable,
   Platform,
@@ -11,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import { launchImageLibrary } from 'react-native-image-picker';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { s } from './HomePage.style';
 
@@ -54,7 +56,7 @@ export default function HomePage() {
   };
 
   const handleSubmit = () => {
-    console.log('form submitted:', formData);
+    console.log('hello');
   };
 
   const MyForm = React.memo(() => {
@@ -69,15 +71,23 @@ export default function HomePage() {
       };
 
       launchImageLibrary(options, response => {
+        console.log(
+          'Full image picker response:',
+          JSON.stringify(response, null, 2)
+        );
+
         if (response.didCancel) {
           console.log('User cancelled image picker');
-        } else if (response.error) {
-          console.log('Image picker error: ', response.error);
-        } else {
-          let uri = response.assets[0].uri;
+        } else if (response.errorCode) {
+          console.log('Image picker error:', response.errorMessage);
+        } else if (response.assets && response.assets.length > 0) {
+          const uri = response.assets[0].uri;
+          console.log('Image URI:', uri); // <--- Check this
+
           setImageUri(uri);
-          // Update form data with image
           handleChanges('profileImage', uri);
+        } else {
+          console.log('No image selected or something went wrong');
         }
       });
     };
@@ -202,12 +212,12 @@ export default function HomePage() {
                   {imageUri ? 'Change Image' : 'Select Image'}
                 </Text>
               </Pressable>
-
-              {imageUri ? (
-                <View style={s.imagePreviewContainer}>
-                  <Image source={{ uri: imageUri }} style={s.imagePreview} />
-                </View>
-              ) : null}
+              {imageUri && (
+                <Image
+                  style={{ width: 200, height: 200, borderRadius: 10 }}
+                  source={{ uri: imageUri }}
+                />
+              )}
             </View>
           )}
         </View>
