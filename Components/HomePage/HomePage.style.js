@@ -108,17 +108,7 @@ export const s = StyleSheet.create({
   imageSelectBtn: {
     borderWidth: 2,
     borderColor: '#39FF14',
-<<<<<<< HEAD
     height: 160,
     width: 150,
-=======
-    height: 150,
-    width: 150,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  icon: {
-    color: '#39FF14',
->>>>>>> 485a38ecf24c4d11966a1ec65b16ada5fa4a3154
   },
 });
