@@ -6,9 +6,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
+<<<<<<< HEAD
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
+=======
+>>>>>>> 485a38ecf24c4d11966a1ec65b16ada5fa4a3154
     this.speed = 5;
     this.health = 3;
     this.power = 0;
