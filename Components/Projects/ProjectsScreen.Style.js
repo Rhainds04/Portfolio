@@ -11,11 +11,6 @@ export const s = StyleSheet.create({
     padding: 10,
     fontFamily: 'pixelFont',
   },
-<<<<<<< HEAD
-  whiteText: {
-    color: 'white',
-  },
-=======
   formLabel: {
     color: '#39FF14',
     fontSize: 30,
@@ -36,7 +31,6 @@ export const s = StyleSheet.create({
   hoveredText: {
     fontSize: 28,
   },
->>>>>>> 485a38ecf24c4d11966a1ec65b16ada5fa4a3154
   navbar: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -50,8 +44,6 @@ export const s = StyleSheet.create({
   navBarItemHovered: {
     margin: 7,
   },
-<<<<<<< HEAD
-=======
   pageContent: {
     flex: 1,
     flexDirection: 'column',
@@ -118,5 +110,4 @@ export const s = StyleSheet.create({
     borderColor: '#39FF14',
     margin: 4,
   },
->>>>>>> 485a38ecf24c4d11966a1ec65b16ada5fa4a3154
 });

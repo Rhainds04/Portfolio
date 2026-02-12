@@ -1,24 +1,14 @@
-<<<<<<< HEAD
-import { View, Text, Pressable, Platform } from 'react-native';
-=======
 import { View, Text, Pressable, Platform, TextInput } from 'react-native';
->>>>>>> 485a38ecf24c4d11966a1ec65b16ada5fa4a3154
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState } from 'react';
 import { useFonts } from 'expo-font';
 import { useNavigation } from '@react-navigation/native';
-<<<<<<< HEAD
-
-import { s } from './ProjectsScreen.Style';
-
-=======
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { s } from './ProjectsScreen.Style';
 
 import { NewProjectForm } from './NewProjectForm';
 
->>>>>>> 485a38ecf24c4d11966a1ec65b16ada5fa4a3154
 export default function Projects() {
   const navigation = useNavigation();
 
@@ -28,25 +18,16 @@ export default function Projects() {
 
   const isWeb = Platform.OS === 'web';
 
-<<<<<<< HEAD
-  const [currentNavIndex, setCurrentNavIndex] = useState(null);
-
-=======
->>>>>>> 485a38ecf24c4d11966a1ec65b16ada5fa4a3154
   const navItems = [
     { route: 'index', text: 'Home' },
     { route: 'Future', text: 'Future' },
     { route: 'Socials', text: 'Socials' },
     { route: 'RhinoGame', text: 'RhinoGame' },
   ];
-<<<<<<< HEAD
-=======
+  
   const [currentNavIndex, setCurrentNavIndex] = useState(null);
-
   const [currentActionBtn, setCurrentActionBtn] = useState(null);
-
   const [formOpened, setFormOpened] = useState(null);
->>>>>>> 485a38ecf24c4d11966a1ec65b16ada5fa4a3154
 
   return (
     <SafeAreaView style={s.mainContainer}>
@@ -72,8 +53,6 @@ export default function Projects() {
           </Pressable>
         ))}
       </View>
-<<<<<<< HEAD
-=======
       <View style={s.pageContent}>
         <View style={s.sideBarActions}>
           <View style={{ flexDirection: 'row' }}>
@@ -152,7 +131,6 @@ export default function Projects() {
           {formOpened ? <NewProjectForm /> : undefined}
         </View>
       </View>
->>>>>>> 485a38ecf24c4d11966a1ec65b16ada5fa4a3154
     </SafeAreaView>
   );
 }

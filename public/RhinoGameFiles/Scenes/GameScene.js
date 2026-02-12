@@ -13,12 +13,16 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
+    const { width, height } = this.scale;
+    const centerX = width / 2;
+    const centerY = height / 2;
+
     this.input.keyboard.createCursorKeys();
 
     this.items = this.physics.add.group();
     this.enemies = this.physics.add.group();
 
-    this.player = new Player(this, 100, 100);
+    this.player = new Player(this, centerX, centerY);
 
     this.coroutines = new CoroutineSystem(this);
     this.powerSpawner = new PowerSpawner(this);
